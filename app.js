@@ -6,6 +6,9 @@ import cors from "cors";
 import { errorMiddleware } from "./middlerwares/error.js";
 import fileUpload from "express-fileupload";
 import userRouter from "./route/userRouter.js"
+import jobRouter from "./route/jobRouter.js"
+import applicationRouter from "./route/applicationRouter.js"
+import { newsLetterCron } from "./automation/newsLetterCron.js";
 
 const app = express()
 
@@ -30,8 +33,12 @@ app.use(fileUpload({
   })
 );
 
-app.use("/api/v1/user/", userRouter)
+app.use("/api/v1/user", userRouter)
+app.use("/api/v1/job", jobRouter)
+app.use("/api/v1/application", applicationRouter)
 
+
+newsLetterCron()
 connection()
 app.use(errorMiddleware)
 
